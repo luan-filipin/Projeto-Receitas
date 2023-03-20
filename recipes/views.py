@@ -26,6 +26,13 @@ def category(request, category_id):
 
 
 def recipe(request, id):
+
+    recipe = get_list_or_404(Recipe.objects.filter(
+        pk=id,
+        is_published=True
+        ).order_by('-id').first()
+    )
+
     return render(request, 'recipes/pages/recipe-view.html', context={
         'recipe': make_recipe(),
         'is_detail_page': True,

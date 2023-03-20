@@ -30,7 +30,7 @@
                 
         <span class="recipe-author-item">
             <i class="fas fa-calendar-alt"></i>
-            {{ recipe.created_at|date:"d/m/Y" }} às {{ recipe.created_at|time:"H:i" }}
+            {{ recipe.created_at|date:"d/m/Y" }} às {{ recipe.created_at|time:"H:i" }} {% comment "" %}Recebe o retorno de data e hora e informa a mascara para mostrar.{% endcomment %} 
         </span>
         {% if recipe.category is not None %}
         <span class="recipe-author-item">
@@ -68,9 +68,13 @@
     {% endif %}
 
     {% if is_detail_page is True %}
-    <div class="preparation-steps">
-        {{recipe.preparation_steps|linebreaksbr}}
-    </div>
+        <div class="preparation-steps">
+            {% if recipe.preparation_steps_is_html is True %}
+                {{recipe.preparation_steps|safe}}  {% comment "safe" %} É colocado Safe para informar ao Django que sabemos o que vai vir aqui pois receber HTML nao é recomendavel.{% endcomment %}
+            {% else %}
+                {{recipe.preparation_steps|linebreaksbr}}
+            {% endif %}
+        </div>
     {% endif %}
 
 </div>
